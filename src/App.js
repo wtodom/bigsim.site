@@ -1,7 +1,6 @@
 import { useState } from 'react';
 
 import { toast } from "react-toastify";
-import { useRef } from "react";
 import copy from "copy-to-clipboard";
 
 import Button from 'react-bootstrap/Button';
@@ -147,7 +146,7 @@ function OutputStack({ data }) {
     let copyText = data;
     let isCopy = copy(copyText);
     if (isCopy) {
-      toast.info("Copied to Clipboard");
+      toast.info("Copied!");
     }
   };
 

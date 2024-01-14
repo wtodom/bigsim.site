@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-import { ToastContainer } from "react-toastify";
+import { Slide, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 
@@ -15,10 +15,15 @@ root.render(
     <ToastContainer
       position="top-right"
       autoClose={1750}
-      hideProgressBar={true}
-      closeOnClick={true}
+      hideProgressBar
+      newestOnTop={false}
+      closeOnClick
+      rtl={false}
+      pauseOnFocusLoss
+      draggable
+      pauseOnHover
       theme="dark"
-      transition="slide"
+      transition={Slide}
     />
   </React.StrictMode>
 );
