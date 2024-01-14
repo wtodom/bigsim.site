@@ -1,0 +1,2 @@
+- https://getbootstrap.com/docs/4.0/utilities/screenreaders/
+- use context rather than passing state through lots of components: https://stackoverflow.com/a/53455474
