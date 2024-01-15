@@ -321,12 +321,12 @@ const generateItems = (ilvls, templates, statCombo) => {
       }
 
       generated += template.note + "\n"
-      template.profileSets.map((set) => {
-        console.log(statCombo)
+      generated += template.profileSets.map((set) => {
         if (statCombo) {
-          set = set.replace(/STATS_HERE/g, statCombo) + ",crafted_stats=" + statCombo
+          const statStr = isEngItem ? toEngStats(statCombo) : statCombo;
+          set = set.replace(/STATS_HERE/g, statStr) + ",crafted_stats=" + statStr
         }
-        generated += set.replace(/ILVL_HERE/g, ilvl) + ",ilevel=" + ilvl + "\n"
+        return set.replace(/ILVL_HERE/g, ilvl) + ",ilevel=" + ilvl + "\n"
       })
       generated += "\n"
     };
@@ -336,7 +336,12 @@ const generateItems = (ilvls, templates, statCombo) => {
 }
 
 const isSingleStat = (statCombo) => {
-  return statCombo.split("/")[0] == statCombo.split("/")[1];
+  return statCombo.split("/")[0] === statCombo.split("/")[1];
+}
+
+const toEngStats = (statCombo) => {
+  const stat = statCombo.split("/")[0];
+  return stat + "/" + stat;
 }
 
 const convertStats = (stats) => {
@@ -345,9 +350,9 @@ const convertStats = (stats) => {
     const stat = STAT_MAP[stats[0]];
     statCombos = [stat + "/" + stat];
   } else {
-    stats.flatMap((stat, i) => {
-      stats.slice(i + 1).map((otherStat) => {
-        statCombos.push([STAT_MAP[stat], STAT_MAP[otherStat]].join("/"));
+    statCombos = stats.flatMap((stat, i) => {
+      return stats.slice(i + 1).map((otherStat) => {
+        return [STAT_MAP[stat], STAT_MAP[otherStat]].join("/");
       });
     });
   }
