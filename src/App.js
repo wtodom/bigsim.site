@@ -15,7 +15,7 @@ import Stack from 'react-bootstrap/Stack';
 import Table from 'react-bootstrap/Table';
 import ToggleButton from 'react-bootstrap/ToggleButton';
 
-// import dhRaidItems from './data/loot-raid-dh.json';
+import dhRaidItems from './data/loot-raid-dh';
 // import dhMplusItems from './data/loot-mplus-dh.json';
 // import dhMplusCraftedItems from './data/loot-crafted-dh.json';
 // import dhEmbellishedItems from './data/loot-embellished-dh.json';
@@ -50,7 +50,7 @@ function App() {
           </Col>
 
           <Col>
-            <OutputStack generatedText={JSON.stringify(selectedStats)} />
+            <OutputStack generatedText={generatedText} />
           </Col>
         </Row>
       </Container>
@@ -65,7 +65,7 @@ function ConfigStack({ sourcesAndLevels, setSourcesAndLevels, statsVisible, setS
         <SourceTable sourcesAndLevels={sourcesAndLevels} setSourcesAndLevels={setSourcesAndLevels} setStatsVisible={setStatsVisible} />
         <CraftedStatsPicker isVisible={statsVisible} selectedStats={selectedStats} setSelectedStats={setSelectedStats} />
         <SimcText setAddonInput={setAddonInput} />
-        <GenerateButton addonInput={addonInput} setgeneratedText={setgeneratedText} />
+        <GenerateButton addonInput={addonInput} sourcesAndLevels={sourcesAndLevels} selectedStats={selectedStats} setgeneratedText={setgeneratedText} />
       </div>
     </Stack>
   )
@@ -271,9 +271,23 @@ function SimcText({ setAddonInput }) {
   )
 }
 
-function GenerateButton({ addonInput, setgeneratedText }) {
+function GenerateButton({ addonInput, sourcesAndLevels, selectedStats, setgeneratedText }) {
   const generateText = () => {
-    setgeneratedText(addonInput)
+    let generated = '' + addonInput + "\n\n";
+
+    if (sourcesAndLevels.raid) {
+      sourcesAndLevels.raid.forEach(ilvl => {
+        dhRaidItems.map((item) => {
+          generated += item.note + "\n"
+          item.profileSets.map((set) => {
+            generated += set.replace(/ILVL_HERE/g, ilvl) + ",ilevel=" + ilvl + "\n"
+          })
+          generated += "\n"
+        });
+      });
+    }
+
+    setgeneratedText(generated)
   }
 
   return (
@@ -300,7 +314,7 @@ function OutputStack({ generatedText }) {
         <Card>
           <Card.Body>
             <Card.Title>Generated Sim Input</Card.Title>
-            <Card.Text>
+            <Card.Text className='display-newlines'>
               {generatedText}
             </Card.Text>
             <Button variant="primary" onClick={copyToClipboard}>Copy</Button>
