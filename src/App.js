@@ -1,11 +1,10 @@
 import { useState } from 'react';
 
-import { toast } from "react-toastify";
 import copy from "copy-to-clipboard";
+import { toast } from "react-toastify";
 
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
-import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
@@ -15,10 +14,10 @@ import Stack from 'react-bootstrap/Stack';
 import Table from 'react-bootstrap/Table';
 import ToggleButton from 'react-bootstrap/ToggleButton';
 
-import dhRaidItems from './data/loot-raid-dh';
-import dhMplusItems from './data/loot-mplus-dh';
 import dhCraftedItems from './data/loot-crafted-dh';
 import dhEmbellishedItems from './data/loot-embellished-dh';
+import dhMplusItems from './data/loot-mplus-dh';
+import dhRaidItems from './data/loot-raid-dh';
 
 
 const STAT_MAP = {
