@@ -22,7 +22,11 @@ import ToggleButton from 'react-bootstrap/ToggleButton';
 
 
 function App() {
-  const [sourcesAndLevels, setSourcesAndLevels] = useState([]);
+  const [sourcesAndLevels, setSourcesAndLevels] = useState({
+    "raid": [],
+    "mplus": [],
+    "crafted": []
+  });
   const [statsVisible, setStatsVisible] = useState(false)
   const [addonInput, setAddonInput] = useState('')
   const [generatedText, setgeneratedText] = useState('')
@@ -55,7 +59,7 @@ function ConfigStack({ sourcesAndLevels, setSourcesAndLevels, statsVisible, setS
   return (
     <Stack gap={3}>
       <div className="p-4">
-        <SourceTable sourcesAndLevels={sourcesAndLevels} setSourcesAndLevels={setSourcesAndLevels} statsVisible={statsVisible} setStatsVisible={setStatsVisible} />
+        <SourceTable sourcesAndLevels={sourcesAndLevels} setSourcesAndLevels={setSourcesAndLevels} setStatsVisible={setStatsVisible} />
         <CraftedStatsPicker isVisible={statsVisible} />
         <SimcText setAddonInput={setAddonInput} />
         <GenerateButton addonInput={addonInput} setgeneratedText={setgeneratedText} />
@@ -64,7 +68,7 @@ function ConfigStack({ sourcesAndLevels, setSourcesAndLevels, statsVisible, setS
   )
 }
 
-function SourceTable({ sourcesAndLevels, setSourcesAndLevels, statsVisible, setStatsVisible }) {
+function SourceTable({ sourcesAndLevels, setSourcesAndLevels, setStatsVisible }) {
   const sourceData = [
     {
       category: { display: "Raid", value: "raid" },
@@ -92,10 +96,6 @@ function SourceTable({ sourcesAndLevels, setSourcesAndLevels, statsVisible, setS
     }
   ]
 
-  const toggleStats = () => {
-    setStatsVisible(!statsVisible)
-  }
-
   return (
     <Table bordered hover>
       <thead>
@@ -106,16 +106,16 @@ function SourceTable({ sourcesAndLevels, setSourcesAndLevels, statsVisible, setS
       </thead>
       <tbody>
         {sourceData.map((source) => (
-          <tr key={'row-' + source.category.display} onClick={toggleStats}>
+          <tr key={'row-' + source.category.display}>
             <td>{source.category.display}</td>
             {source.levels.map((level) => (
               <SourceCell
                 key={source.category.value + '-' + level.ilvl}
                 display={level.display}
-                value={source.category.value + '-' + level.ilvl}
+                source={source.category.value}
+                ilvl={level.ilvl}
                 sourcesAndLevels={sourcesAndLevels}
                 setSourcesAndLevels={setSourcesAndLevels}
-                statsVisible={statsVisible}
                 setStatsVisible={setStatsVisible}
               />
             ))}
@@ -126,17 +126,25 @@ function SourceTable({ sourcesAndLevels, setSourcesAndLevels, statsVisible, setS
   )
 }
 
-function SourceCell({ display, value, sourcesAndLevels, setSourcesAndLevels, statsVisible, setStatsVisible }) {
+function SourceCell({ display, source, ilvl, sourcesAndLevels, setSourcesAndLevels, setStatsVisible }) {
   const [isSelected, setSelected] = useState(false);
 
   const handleClick = () => {
     setSelected(!isSelected);
 
     // These look reversed but it's just because the state isn't updated when executes.
-    if (!isSelected && !sourcesAndLevels.includes(value)) {
-      setSourcesAndLevels([...sourcesAndLevels, value])
-    } else if (isSelected && sourcesAndLevels.includes(value)) {
-      setSourcesAndLevels(sourcesAndLevels.filter((v) => v !== value))
+    let newSourcesAndLevels = {...sourcesAndLevels}
+    if (!isSelected && !sourcesAndLevels[source].includes(ilvl)) {
+      newSourcesAndLevels[source].push(ilvl)
+    } else if (isSelected && sourcesAndLevels[source].includes(ilvl)) {
+        newSourcesAndLevels[source] = newSourcesAndLevels[source].filter((v) => v !== ilvl)
+    }
+    setSourcesAndLevels(newSourcesAndLevels)
+
+    if (newSourcesAndLevels['crafted'].length !== 0) {
+      setStatsVisible(true)
+    } else {
+      setStatsVisible(false)
     }
   };
 
@@ -154,7 +162,7 @@ function CraftedStatsPicker({ isVisible }) {
   const [isVersChecked, setVersChecked] = useState(false)
 
   return (
-    <ButtonGroup>
+    <ButtonGroup hidden={!isVisible}>
       <ToggleButton
         className="mb-2"
         id="haste-button"
