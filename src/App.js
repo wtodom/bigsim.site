@@ -28,6 +28,7 @@ function App() {
     "crafted": []
   });
   const [statsVisible, setStatsVisible] = useState(false)
+  const [selectedStats, setSelectedStats] = useState([])
   const [addonInput, setAddonInput] = useState('')
   const [generatedText, setgeneratedText] = useState('')
 
@@ -41,13 +42,15 @@ function App() {
               setSourcesAndLevels={setSourcesAndLevels}
               statsVisible={statsVisible}
               setStatsVisible={setStatsVisible}
+              selectedStats={selectedStats}
+              setSelectedStats={setSelectedStats}
               addonInput={addonInput}
               setAddonInput={setAddonInput}
               setgeneratedText={setgeneratedText} />
           </Col>
 
           <Col>
-            <OutputStack generatedText={generatedText} />
+            <OutputStack generatedText={JSON.stringify(selectedStats)} />
           </Col>
         </Row>
       </Container>
@@ -55,12 +58,12 @@ function App() {
   );
 }
 
-function ConfigStack({ sourcesAndLevels, setSourcesAndLevels, statsVisible, setStatsVisible, addonInput, setAddonInput, setgeneratedText }) {
+function ConfigStack({ sourcesAndLevels, setSourcesAndLevels, statsVisible, setStatsVisible, selectedStats, setSelectedStats, addonInput, setAddonInput, setgeneratedText }) {
   return (
     <Stack gap={3}>
       <div className="p-4">
         <SourceTable sourcesAndLevels={sourcesAndLevels} setSourcesAndLevels={setSourcesAndLevels} setStatsVisible={setStatsVisible} />
-        <CraftedStatsPicker isVisible={statsVisible} />
+        <CraftedStatsPicker isVisible={statsVisible} selectedStats={selectedStats} setSelectedStats={setSelectedStats} />
         <SimcText setAddonInput={setAddonInput} />
         <GenerateButton addonInput={addonInput} setgeneratedText={setgeneratedText} />
       </div>
@@ -133,11 +136,11 @@ function SourceCell({ display, source, ilvl, sourcesAndLevels, setSourcesAndLeve
     setSelected(!isSelected);
 
     // These look reversed but it's just because the state isn't updated when executes.
-    let newSourcesAndLevels = {...sourcesAndLevels}
+    let newSourcesAndLevels = { ...sourcesAndLevels }
     if (!isSelected && !sourcesAndLevels[source].includes(ilvl)) {
       newSourcesAndLevels[source].push(ilvl)
     } else if (isSelected && sourcesAndLevels[source].includes(ilvl)) {
-        newSourcesAndLevels[source] = newSourcesAndLevels[source].filter((v) => v !== ilvl)
+      newSourcesAndLevels[source] = newSourcesAndLevels[source].filter((v) => v !== ilvl)
     }
     setSourcesAndLevels(newSourcesAndLevels)
 
@@ -155,11 +158,46 @@ function SourceCell({ display, source, ilvl, sourcesAndLevels, setSourcesAndLeve
   )
 }
 
-function CraftedStatsPicker({ isVisible }) {
+function CraftedStatsPicker({ isVisible, selectedStats, setSelectedStats }) {
   const [isHasteChecked, setHasteChecked] = useState(false)
   const [isCritChecked, setCritChecked] = useState(false)
-  const [isMasteryChecked, setMasteryChecked] = useState(false)
   const [isVersChecked, setVersChecked] = useState(false)
+  const [isMasteryChecked, setMasteryChecked] = useState(false)
+
+  const updateSelectedStats = (stat, selected) => {
+    let newStats;
+    if (selected) {
+      newStats = [...selectedStats, stat]
+    } else {
+      newStats = selectedStats.filter((s) => s !== stat)
+    }
+    setSelectedStats(newStats)
+  }
+
+  const handleHasteChanged = (e) => {
+    let checked = e.currentTarget.checked;
+    setHasteChecked(checked)
+    updateSelectedStats(e.currentTarget.value, checked)
+  }
+
+  const handleCritChanged = (e) => {
+    let checked = e.currentTarget.checked;
+    setCritChecked(checked)
+    updateSelectedStats(e.currentTarget.value, checked)
+  }
+
+  const handleVersChanged = (e) => {
+    let checked = e.currentTarget.checked;
+    setVersChecked(checked)
+    updateSelectedStats(e.currentTarget.value, checked)
+  }
+
+  const handleMasteryChanged = (e) => {
+    let checked = e.currentTarget.checked;
+    setMasteryChecked(checked)
+    updateSelectedStats(e.currentTarget.value, checked)
+  }
+
 
   return (
     <ButtonGroup hidden={!isVisible}>
@@ -169,8 +207,8 @@ function CraftedStatsPicker({ isVisible }) {
         type="checkbox"
         variant="outline-primary"
         checked={isHasteChecked}
-        value="1"
-        onChange={(e) => setHasteChecked(e.currentTarget.checked)}
+        value="haste"
+        onChange={handleHasteChanged}
       >
         Haste
       </ToggleButton>
@@ -181,22 +219,10 @@ function CraftedStatsPicker({ isVisible }) {
         type="checkbox"
         variant="outline-primary"
         checked={isCritChecked}
-        value="1"
-        onChange={(e) => setCritChecked(e.currentTarget.checked)}
+        value="crit"
+        onChange={handleCritChanged}
       >
         Crit
-      </ToggleButton>
-
-      <ToggleButton
-        className="mb-2"
-        id="mastery-button"
-        type="checkbox"
-        variant="outline-primary"
-        checked={isMasteryChecked}
-        value="1"
-        onChange={(e) => setMasteryChecked(e.currentTarget.checked)}
-      >
-        Mastery
       </ToggleButton>
 
       <ToggleButton
@@ -205,10 +231,22 @@ function CraftedStatsPicker({ isVisible }) {
         type="checkbox"
         variant="outline-primary"
         checked={isVersChecked}
-        value="1"
-        onChange={(e) => setVersChecked(e.currentTarget.checked)}
+        value="vers"
+        onChange={handleVersChanged}
       >
         Versatility
+      </ToggleButton>
+
+      <ToggleButton
+        className="mb-2"
+        id="mastery-button"
+        type="checkbox"
+        variant="outline-primary"
+        checked={isMasteryChecked}
+        value="mastery"
+        onChange={handleMasteryChanged}
+      >
+        Mastery
       </ToggleButton>
     </ButtonGroup>
   )
