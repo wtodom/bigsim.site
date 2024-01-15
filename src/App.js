@@ -259,7 +259,7 @@ function SimcText({ setAddonInput }) {
 
   return (
     <div className="p-2">
-      <FloatingLabel controlId="floatingTextarea" label="SimC Addon Output">
+      <FloatingLabel controlId="simc-addon-output-floatingTextarea" label="SimC Addon Output">
         <Form.Control
           as="textarea"
           placeholder="Paste output of /simc here."
@@ -316,24 +316,30 @@ function OutputStack({ generatedText }) {
     let copyText = generatedText;
     let isCopy = copy(copyText);
     if (isCopy) {
+      // TODO: convert this to use native bootstrap toasts
       toast.info("Copied!");
     }
   };
 
   return (
-    <Stack gap={3}>
-      <div className="p-4">
-        <Card>
-          <Card.Body>
-            <Card.Title>Generated Sim Input</Card.Title>
-            <Card.Text className='display-newlines'>
-              {generatedText}
-            </Card.Text>
-            <Button variant="primary" onClick={copyToClipboard}>Copy</Button>
-          </Card.Body>
-        </Card>
-      </div>
-    </Stack>
+    <div className="p-4">
+      <Stack gap={3}>
+        <FloatingLabel controlId="floatingTextarea" label="SimC Addon Output">
+          <Form.Control
+            as="textarea"
+            placeholder="Generated sim input"
+            className='display-newlines'
+            style={{ height: '400px' }}
+            value={generatedText}
+          />
+        </FloatingLabel>
+        <div className="d-grid gap-2">
+          <Button variant="primary" size="lg" onClick={copyToClipboard}>
+            Copy to clipboard
+          </Button>
+        </div>
+      </Stack>
+    </div>
   )
 }
 
