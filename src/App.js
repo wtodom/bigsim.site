@@ -16,7 +16,7 @@ import Table from 'react-bootstrap/Table';
 import ToggleButton from 'react-bootstrap/ToggleButton';
 
 import dhRaidItems from './data/loot-raid-dh';
-// import dhMplusItems from './data/loot-mplus-dh.json';
+import dhMplusItems from './data/loot-mplus-dh';
 // import dhMplusCraftedItems from './data/loot-crafted-dh.json';
 // import dhEmbellishedItems from './data/loot-embellished-dh.json';
 
@@ -278,6 +278,18 @@ function GenerateButton({ addonInput, sourcesAndLevels, selectedStats, setgenera
     if (sourcesAndLevels.raid) {
       sourcesAndLevels.raid.forEach(ilvl => {
         dhRaidItems.map((item) => {
+          generated += item.note + "\n"
+          item.profileSets.map((set) => {
+            generated += set.replace(/ILVL_HERE/g, ilvl) + ",ilevel=" + ilvl + "\n"
+          })
+          generated += "\n"
+        });
+      });
+    }
+
+    if (sourcesAndLevels.mplus) {
+      sourcesAndLevels.mplus.forEach(ilvl => {
+        dhMplusItems.map((item) => {
           generated += item.note + "\n"
           item.profileSets.map((set) => {
             generated += set.replace(/ILVL_HERE/g, ilvl) + ",ilevel=" + ilvl + "\n"
