@@ -17,15 +17,23 @@ import ToggleButton from 'react-bootstrap/ToggleButton';
 
 import dhRaidItems from './data/loot-raid-dh';
 import dhMplusItems from './data/loot-mplus-dh';
-// import dhMplusCraftedItems from './data/loot-crafted-dh.json';
-// import dhEmbellishedItems from './data/loot-embellished-dh.json';
+import dhCraftedItems from './data/loot-crafted-dh';
+import dhEmbellishedItems from './data/loot-embellished-dh';
 
+
+const STAT_MAP = {
+  "crit": "32",
+  "haste": "36",
+  "vers": "40",
+  "mastery": "49"
+}
 
 function App() {
   const [sourcesAndLevels, setSourcesAndLevels] = useState({
     "raid": [],
     "mplus": [],
-    "crafted": []
+    "crafted": [],
+    "embellished": []
   });
   const [statsVisible, setStatsVisible] = useState(false)
   const [selectedStats, setSelectedStats] = useState([])
@@ -87,6 +95,14 @@ function SourceTable({ sourcesAndLevels, setSourcesAndLevels, setStatsVisible })
         { display: 'Champion', ilvl: 476 },
         { display: 'Hero', ilvl: 483 },
         { display: 'Myth', ilvl: 489 }
+      ]
+    },
+    {
+      category: { display: "Embellished (built-in)", value: "embellished" },
+      levels: [
+        { display: 'Base', ilvl: 463 },
+        { display: 'Wyrm', ilvl: 476 },
+        { display: 'Aspect', ilvl: 486 }
       ]
     },
     {
@@ -198,7 +214,6 @@ function CraftedStatsPicker({ isVisible, selectedStats, setSelectedStats }) {
     updateSelectedStats(e.currentTarget.value, checked)
   }
 
-
   return (
     <ButtonGroup hidden={!isVisible}>
       <ToggleButton
@@ -275,29 +290,15 @@ function GenerateButton({ addonInput, sourcesAndLevels, selectedStats, setgenera
   const generateText = () => {
     let generated = '' + addonInput + "\n\n";
 
-    if (sourcesAndLevels.raid) {
-      sourcesAndLevels.raid.forEach(ilvl => {
-        dhRaidItems.map((item) => {
-          generated += item.note + "\n"
-          item.profileSets.map((set) => {
-            generated += set.replace(/ILVL_HERE/g, ilvl) + ",ilevel=" + ilvl + "\n"
-          })
-          generated += "\n"
-        });
-      });
+    const statCombos = convertStats(selectedStats);
+    console.log(selectedStats)
+    console.log('statCombos: ' + statCombos)
+    for (const statCombo of statCombos) {
+      generated += generateItems(sourcesAndLevels.crafted, dhCraftedItems, statCombo)
     }
-
-    if (sourcesAndLevels.mplus) {
-      sourcesAndLevels.mplus.forEach(ilvl => {
-        dhMplusItems.map((item) => {
-          generated += item.note + "\n"
-          item.profileSets.map((set) => {
-            generated += set.replace(/ILVL_HERE/g, ilvl) + ",ilevel=" + ilvl + "\n"
-          })
-          generated += "\n"
-        });
-      });
-    }
+    generated += generateItems(sourcesAndLevels.raid, dhRaidItems)
+    generated += generateItems(sourcesAndLevels.mplus, dhMplusItems)
+    generated += generateItems(sourcesAndLevels.embellished, dhEmbellishedItems)
 
     setgeneratedText(generated)
   }
@@ -309,6 +310,50 @@ function GenerateButton({ addonInput, sourcesAndLevels, selectedStats, setgenera
       </Button>
     </div>
   )
+}
+
+const generateItems = (ilvls, templates, statCombo) => {
+  let generated = "";
+  for (const ilvl of ilvls) {
+    for (const template of templates) {
+      const isEngItem = template.note.includes(" - Engineering");
+      if (templates === dhCraftedItems && statCombo && isSingleStat(statCombo) && !isEngItem) {
+        continue;
+      }
+
+      generated += template.note + "\n"
+      template.profileSets.map((set) => {
+        console.log(statCombo)
+        if (statCombo) {
+          set = set.replace(/STATS_HERE/g, statCombo) + ",crafted_stats=" + statCombo
+        }
+        generated += set.replace(/ILVL_HERE/g, ilvl) + ",ilevel=" + ilvl + "\n"
+      })
+      generated += "\n"
+    };
+  };
+
+  return generated;
+}
+
+const isSingleStat = (statCombo) => {
+  return statCombo.split("/")[0] == statCombo.split("/")[1];
+}
+
+const convertStats = (stats) => {
+  let statCombos = [];
+  if (stats.length === 1) {
+    const stat = STAT_MAP[stats[0]];
+    statCombos = [stat + "/" + stat];
+  } else {
+    stats.flatMap((stat, i) => {
+      stats.slice(i + 1).map((otherStat) => {
+        statCombos.push([STAT_MAP[stat], STAT_MAP[otherStat]].join("/"));
+      });
+    });
+  }
+
+  return statCombos;
 }
 
 function OutputStack({ generatedText }) {
@@ -331,6 +376,7 @@ function OutputStack({ generatedText }) {
             className='display-newlines'
             style={{ height: '400px' }}
             value={generatedText}
+            readOnly
           />
         </FloatingLabel>
         <div className="d-grid gap-2">
