@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import copy from "copy-to-clipboard";
 
 import Button from 'react-bootstrap/Button';
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
@@ -12,21 +13,37 @@ import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Stack from 'react-bootstrap/Stack';
 import Table from 'react-bootstrap/Table';
+import ToggleButton from 'react-bootstrap/ToggleButton';
+
+// import dhRaidItems from './data/loot-raid-dh.json';
+// import dhMplusItems from './data/loot-mplus-dh.json';
+// import dhMplusCraftedItems from './data/loot-crafted-dh.json';
+// import dhEmbellishedItems from './data/loot-embellished-dh.json';
 
 
 function App() {
   const [sourcesAndLevels, setSourcesAndLevels] = useState([]);
+  const [statsVisible, setStatsVisible] = useState(false)
+  const [addonInput, setAddonInput] = useState('')
+  const [generatedText, setgeneratedText] = useState('')
 
   return (
     <div className="App">
       <Container fluid="md">
         <Row>
           <Col>
-            <ConfigStack sourcesAndLevels={sourcesAndLevels} setSourcesAndLevels={setSourcesAndLevels} />
+            <ConfigStack
+              sourcesAndLevels={sourcesAndLevels}
+              setSourcesAndLevels={setSourcesAndLevels}
+              statsVisible={statsVisible}
+              setStatsVisible={setStatsVisible}
+              addonInput={addonInput}
+              setAddonInput={setAddonInput}
+              setgeneratedText={setgeneratedText} />
           </Col>
 
           <Col>
-            <OutputStack data={sourcesAndLevels} />
+            <OutputStack generatedText={generatedText} />
           </Col>
         </Row>
       </Container>
@@ -34,22 +51,23 @@ function App() {
   );
 }
 
-function ConfigStack({ sourcesAndLevels, setSourcesAndLevels }) {
+function ConfigStack({ sourcesAndLevels, setSourcesAndLevels, statsVisible, setStatsVisible, addonInput, setAddonInput, setgeneratedText }) {
   return (
     <Stack gap={3}>
-      <div className="p-2">
-        <SourceTable sourcesAndLevels={sourcesAndLevels} setSourcesAndLevels={setSourcesAndLevels} />
-        <SimcText />
-        <GenerateButton />
+      <div className="p-4">
+        <SourceTable sourcesAndLevels={sourcesAndLevels} setSourcesAndLevels={setSourcesAndLevels} statsVisible={statsVisible} setStatsVisible={setStatsVisible} />
+        <CraftedStatsPicker isVisible={statsVisible} />
+        <SimcText setAddonInput={setAddonInput} />
+        <GenerateButton addonInput={addonInput} setgeneratedText={setgeneratedText} />
       </div>
     </Stack>
   )
 }
 
-function SourceTable({ sourcesAndLevels, setSourcesAndLevels }) {
+function SourceTable({ sourcesAndLevels, setSourcesAndLevels, statsVisible, setStatsVisible }) {
   const sourceData = [
     {
-      category: {display: "Raid", value: "raid"},
+      category: { display: "Raid", value: "raid" },
       levels: [
         { display: 'Normal', ilvl: 476 },
         { display: 'Heroic', ilvl: 483 },
@@ -57,7 +75,7 @@ function SourceTable({ sourcesAndLevels, setSourcesAndLevels }) {
       ]
     },
     {
-      category: {display: "Mythic Plus", value: "mplus"},
+      category: { display: "Mythic Plus", value: "mplus" },
       levels: [
         { display: 'Champion', ilvl: 476 },
         { display: 'Hero', ilvl: 483 },
@@ -65,7 +83,7 @@ function SourceTable({ sourcesAndLevels, setSourcesAndLevels }) {
       ]
     },
     {
-      category: {display: "Crafted", value: "crafted"},
+      category: { display: "Crafted", value: "crafted" },
       levels: [
         { display: 'Base', ilvl: 463 },
         { display: 'Wyrm', ilvl: 476 },
@@ -74,8 +92,12 @@ function SourceTable({ sourcesAndLevels, setSourcesAndLevels }) {
     }
   ]
 
+  const toggleStats = () => {
+    setStatsVisible(!statsVisible)
+  }
+
   return (
-    <Table striped bordered hover>
+    <Table bordered hover>
       <thead>
         <tr>
           <th>Source</th>
@@ -84,10 +106,18 @@ function SourceTable({ sourcesAndLevels, setSourcesAndLevels }) {
       </thead>
       <tbody>
         {sourceData.map((source) => (
-          <tr key={'row-' + source.category.display}>
+          <tr key={'row-' + source.category.display} onClick={toggleStats}>
             <td>{source.category.display}</td>
             {source.levels.map((level) => (
-              <SourceCell key={source.category.value + '-' + level.ilvl} display={level.display} value={source.category.value + '-' + level.ilvl} sourcesAndLevels={sourcesAndLevels} setSourcesAndLevels={setSourcesAndLevels} />
+              <SourceCell
+                key={source.category.value + '-' + level.ilvl}
+                display={level.display}
+                value={source.category.value + '-' + level.ilvl}
+                sourcesAndLevels={sourcesAndLevels}
+                setSourcesAndLevels={setSourcesAndLevels}
+                statsVisible={statsVisible}
+                setStatsVisible={setStatsVisible}
+              />
             ))}
           </tr>
         ))}
@@ -96,10 +126,10 @@ function SourceTable({ sourcesAndLevels, setSourcesAndLevels }) {
   )
 }
 
-function SourceCell({ display, value, sourcesAndLevels, setSourcesAndLevels }) {
+function SourceCell({ display, value, sourcesAndLevels, setSourcesAndLevels, statsVisible, setStatsVisible }) {
   const [isSelected, setSelected] = useState(false);
 
-  const toggleClass = () => {
+  const handleClick = () => {
     setSelected(!isSelected);
 
     // These look reversed but it's just because the state isn't updated when executes.
@@ -111,13 +141,76 @@ function SourceCell({ display, value, sourcesAndLevels, setSourcesAndLevels }) {
   };
 
   return (
-    <td className={isSelected ? "bg-success" : null} onClick={toggleClass}>
+    <td className={isSelected ? "bg-success" : null} onClick={handleClick}>
       {display}
     </td>
   )
 }
 
-function SimcText() {
+function CraftedStatsPicker({ isVisible }) {
+  const [isHasteChecked, setHasteChecked] = useState(false)
+  const [isCritChecked, setCritChecked] = useState(false)
+  const [isMasteryChecked, setMasteryChecked] = useState(false)
+  const [isVersChecked, setVersChecked] = useState(false)
+
+  return (
+    <ButtonGroup>
+      <ToggleButton
+        className="mb-2"
+        id="haste-button"
+        type="checkbox"
+        variant="outline-primary"
+        checked={isHasteChecked}
+        value="1"
+        onChange={(e) => setHasteChecked(e.currentTarget.checked)}
+      >
+        Haste
+      </ToggleButton>
+
+      <ToggleButton
+        className="mb-2"
+        id="crit-button"
+        type="checkbox"
+        variant="outline-primary"
+        checked={isCritChecked}
+        value="1"
+        onChange={(e) => setCritChecked(e.currentTarget.checked)}
+      >
+        Crit
+      </ToggleButton>
+
+      <ToggleButton
+        className="mb-2"
+        id="mastery-button"
+        type="checkbox"
+        variant="outline-primary"
+        checked={isMasteryChecked}
+        value="1"
+        onChange={(e) => setMasteryChecked(e.currentTarget.checked)}
+      >
+        Mastery
+      </ToggleButton>
+
+      <ToggleButton
+        className="mb-2"
+        id="vers-button"
+        type="checkbox"
+        variant="outline-primary"
+        checked={isVersChecked}
+        value="1"
+        onChange={(e) => setVersChecked(e.currentTarget.checked)}
+      >
+        Versatility
+      </ToggleButton>
+    </ButtonGroup>
+  )
+}
+
+function SimcText({ setAddonInput }) {
+  const handleChange = (e) => {
+    setAddonInput(e.target.value)
+  }
+
   return (
     <div className="p-2">
       <FloatingLabel controlId="floatingTextarea" label="SimC Addon Output">
@@ -125,25 +218,30 @@ function SimcText() {
           as="textarea"
           placeholder="Paste output of /simc here."
           style={{ height: '100px' }}
+          onChange={handleChange}
         />
       </FloatingLabel>
     </div>
   )
 }
 
-function GenerateButton() {
+function GenerateButton({ addonInput, setgeneratedText }) {
+  const generateText = () => {
+    setgeneratedText(addonInput)
+  }
+
   return (
     <div className="d-grid gap-2">
-      <Button variant="primary" size="lg" >
+      <Button variant="primary" size="lg" onClick={generateText}>
         Generate Sim Input
       </Button>
     </div>
   )
 }
 
-function OutputStack({ data }) {
+function OutputStack({ generatedText }) {
   const copyToClipboard = () => {
-    let copyText = data;
+    let copyText = generatedText;
     let isCopy = copy(copyText);
     if (isCopy) {
       toast.info("Copied!");
@@ -152,12 +250,12 @@ function OutputStack({ data }) {
 
   return (
     <Stack gap={3}>
-      <div className="p-2">
+      <div className="p-4">
         <Card>
           <Card.Body>
-            <Card.Title>Paste this into an Advanced sim on raidbots.com:</Card.Title>
+            <Card.Title>Generated Sim Input</Card.Title>
             <Card.Text>
-              {data.join(", ")}
+              {generatedText}
             </Card.Text>
             <Button variant="primary" onClick={copyToClipboard}>Copy</Button>
           </Card.Body>
