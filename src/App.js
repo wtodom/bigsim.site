@@ -37,6 +37,7 @@ function App() {
   const [statsVisible, setStatsVisible] = useState(false)
   const [selectedStats, setSelectedStats] = useState([])
   const [addonInput, setAddonInput] = useState('')
+  const [canGenerate, setCanGenerate] = useState(false);
   const [generatedText, setgeneratedText] = useState('')
 
   return (
@@ -53,6 +54,8 @@ function App() {
               setSelectedStats={setSelectedStats}
               addonInput={addonInput}
               setAddonInput={setAddonInput}
+              canGenerate={canGenerate}
+              setCanGenerate={setCanGenerate}
               setgeneratedText={setgeneratedText} />
           </Col>
 
@@ -65,16 +68,16 @@ function App() {
   );
 }
 
-function ConfigStack({ sourcesAndLevels, setSourcesAndLevels, statsVisible, setStatsVisible, selectedStats, setSelectedStats, addonInput, setAddonInput, setgeneratedText }) {
+function ConfigStack({ sourcesAndLevels, setSourcesAndLevels, statsVisible, setStatsVisible, selectedStats, setSelectedStats, addonInput, setAddonInput, canGenerate, setCanGenerate, setgeneratedText }) {
   return (
-    <Stack gap={3}>
-      <div className="p-4">
+    <div className="p-4">
+      <Stack gap={3}>
         <SourceTable sourcesAndLevels={sourcesAndLevels} setSourcesAndLevels={setSourcesAndLevels} setStatsVisible={setStatsVisible} />
         <CraftedStatsPicker isVisible={statsVisible} selectedStats={selectedStats} setSelectedStats={setSelectedStats} />
-        <SimcText setAddonInput={setAddonInput} />
-        <GenerateButton addonInput={addonInput} sourcesAndLevels={sourcesAndLevels} selectedStats={selectedStats} setgeneratedText={setgeneratedText} />
-      </div>
-    </Stack>
+        <SimcText setAddonInput={setAddonInput} setCanGenerate={setCanGenerate} />
+        <GenerateButton addonInput={addonInput} sourcesAndLevels={sourcesAndLevels} selectedStats={selectedStats} canGenerate={canGenerate} setgeneratedText={setgeneratedText} />
+      </Stack>
+    </div>
   )
 }
 
@@ -266,9 +269,10 @@ function CraftedStatsPicker({ isVisible, selectedStats, setSelectedStats }) {
   )
 }
 
-function SimcText({ setAddonInput }) {
+function SimcText({ setAddonInput, setCanGenerate }) {
   const handleChange = (e) => {
-    setAddonInput(e.target.value)
+    setAddonInput(e.target.value);
+    setCanGenerate(e.target.value !== '');
   }
 
   return (
@@ -285,13 +289,16 @@ function SimcText({ setAddonInput }) {
   )
 }
 
-function GenerateButton({ addonInput, sourcesAndLevels, selectedStats, setgeneratedText }) {
+function GenerateButton({ addonInput, sourcesAndLevels, selectedStats, canGenerate, setgeneratedText }) {
   const generateText = () => {
+    if (!canGenerate) {
+      // TODO: show toast or validation notification with reason
+      return
+    }
+
     let generated = '' + addonInput + "\n\n";
 
     const statCombos = convertStats(selectedStats);
-    console.log(selectedStats)
-    console.log('statCombos: ' + statCombos)
     for (const statCombo of statCombos) {
       generated += generateItems(sourcesAndLevels.crafted, dhCraftedItems, statCombo)
     }
@@ -304,8 +311,8 @@ function GenerateButton({ addonInput, sourcesAndLevels, selectedStats, setgenera
 
   return (
     <div className="d-grid gap-2">
-      <Button variant="primary" size="lg" onClick={generateText}>
-        <GenerateIcon /> Generate Sim Input
+      <Button variant={canGenerate ? "primary" : "secondary"} size="lg" onClick={generateText} disabled={!canGenerate} >
+        <GenerateIcon /> Generate Combined Sim Input
       </Button>
     </div>
   )
