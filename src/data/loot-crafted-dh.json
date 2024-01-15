@@ -1,187 +1,159 @@
 {
     "dhCraftedItems": [
         {
-            "note": "# Life-Bound Cap - Professions - Epic - Leatherworking",
+            "note": "# Life-Bound Cap - Leatherworking",
             "profileSets": [
-                "profileset.\"Life-Bound Cap - STATS_HERE - Leatherworking\"+=head=,id=193400,bonus_id=8836/1553"
+                "profileset.\"(ILVL_HERE, STATS_HERE) Life-Bound Cap - Leatherworking\"+=head=,id=193400,bonus_id=8836/1553"
             ]
         },
         {
-            "note": "# Peripheral Vision Projectors - Professions - Epic - Engineering",
+            "note": "# Peripheral Vision Projectors - Engineering",
             "profileSets": [
-                "profileset.\"Peripheral Vision Projectors - STATS_HERE - Engineering\"+=head=,id=198324,bonus_id=8836/1553"
+                "profileset.\"(ILVL_HERE, STATS_HERE) Peripheral Vision Projectors - Engineering\"+=head=,id=198324,bonus_id=8836/1553"
             ]
         },
         {
-            "note": "# Elemental Lariat - Professions - Epic - Jewelcrafting",
+            "note": "# Elemental Lariat - Jewelcrafting",
             "profileSets": [
-                "profileset.\"Elemental Lariat - STATS_HERE - Jewelcrafting\"+=neck=,id=193001,bonus_id=8836/8780"
+                "profileset.\"(ILVL_HERE, STATS_HERE) Elemental Lariat - Jewelcrafting\"+=neck=,id=193001,bonus_id=8836/8780"
             ]
         },
         {
-            "note": "# Choker of Shielding - Professions - Epic - Jewelcrafting",
+            "note": "# Choker of Shielding - Jewelcrafting",
             "profileSets": [
-                "profileset.\"Choker of Shielding - STATS_HERE - Jewelcrafting\"+=neck=,id=193002,bonus_id=8836/8780"
+                "profileset.\"(ILVL_HERE, STATS_HERE) Choker of Shielding - Jewelcrafting\"+=neck=,id=193002,bonus_id=8836/8780"
             ]
         },
         {
-            "note": "# Torc of Passed Time - Professions - Epic - Jewelcrafting",
+            "note": "# Torc of Passed Time - Jewelcrafting",
             "profileSets": [
-                "profileset.\"Torc of Passed Time - STATS_HERE - Jewelcrafting\"+=neck=,id=201759,bonus_id=8836/8780"
+                "profileset.\"(ILVL_HERE, STATS_HERE) Torc of Passed Time - Jewelcrafting\"+=neck=,id=201759,bonus_id=8836/8780"
             ]
         },
         {
-            "note": "# Life-Bound Shoulderpads - Professions - Epic - Leatherworking",
+            "note": "# Life-Bound Shoulderpads - Leatherworking",
             "profileSets": [
-                "profileset.\"Life-Bound Shoulderpads - STATS_HERE - Leatherworking\"+=shoulder=,id=193406,bonus_id=8836/1553"
+                "profileset.\"(ILVL_HERE, STATS_HERE) Life-Bound Shoulderpads - Leatherworking\"+=shoulder=,id=193406,bonus_id=8836/1553"
             ]
         },
         {
-            "note": "# Life-Bound Chestpiece - Professions - Epic - Leatherworking",
+            "note": "# Life-Bound Chestpiece - Leatherworking",
             "profileSets": [
-                "profileset.\"Life-Bound Chestpiece - STATS_HERE - Leatherworking\"+=chest=,id=193399,enchant_id=6625,bonus_id=8836/1553"
+                "profileset.\"(ILVL_HERE, STATS_HERE) Life-Bound Chestpiece - Leatherworking\"+=chest=,id=193399,enchant_id=6625,bonus_id=8836/1553"
             ]
         },
         {
-            "note": "# Life-Bound Belt - Professions - Epic - Leatherworking",
+            "note": "# Life-Bound Belt - Leatherworking",
             "profileSets": [
-                "profileset.\"Life-Bound Belt - STATS_HERE - Leatherworking\"+=waist=,id=193407,bonus_id=8836/1553"
+                "profileset.\"(ILVL_HERE, STATS_HERE) Life-Bound Belt - Leatherworking\"+=waist=,id=193407,bonus_id=8836/1553"
             ]
         },
         {
-            "note": "# Life-Bound Trousers - Professions - Epic - Leatherworking",
+            "note": "# Life-Bound Trousers - Leatherworking",
             "profileSets": [
-                "profileset.\"Life-Bound Trousers - STATS_HERE - Leatherworking\"+=legs=,id=193408,enchant_id=6490,bonus_id=8836/1553"
+                "profileset.\"(ILVL_HERE, STATS_HERE) Life-Bound Trousers - Leatherworking\"+=legs=,id=193408,enchant_id=6490,bonus_id=8836/1553"
             ]
         },
         {
-            "note": "# Life-Bound Boots - Professions - Epic - Leatherworking",
+            "note": "# Life-Bound Boots - Leatherworking",
             "profileSets": [
-                "profileset.\"Life-Bound Boots - STATS_HERE - Leatherworking\"+=feet=,id=193398,enchant_id=6613,bonus_id=8836/1553"
+                "profileset.\"(ILVL_HERE, STATS_HERE) Life-Bound Boots - Leatherworking\"+=feet=,id=193398,enchant_id=6613,bonus_id=8836/1553"
             ]
         },
         {
-            "note": "# Life-Bound Bindings - Professions - Epic - Leatherworking",
+            "note": "# Life-Bound Bindings - Leatherworking",
             "profileSets": [
-                "profileset.\"Life-Bound Bindings - STATS_HERE - Leatherworking\"+=wrist=,id=193419,enchant_id=6580,bonus_id=8836/1553"
+                "profileset.\"(ILVL_HERE, STATS_HERE) Life-Bound Bindings - Leatherworking\"+=wrist=,id=193419,enchant_id=6580,bonus_id=8836/1553"
             ]
         },
         {
-            "note": "# Needlessly Complex Wristguards - Professions - Epic - Engineering",
+            "note": "# Needlessly Complex Wristguards - Engineering",
             "profileSets": [
-                "profileset.\"Needlessly Complex Wristguards - STATS_HERE - Engineering\"+=wrist=,id=198327,enchant_id=6580,bonus_id=8836/1553"
+                "profileset.\"(ILVL_HERE, STATS_HERE) Needlessly Complex Wristguards - Engineering\"+=wrist=,id=198327,enchant_id=6580,bonus_id=8836/1553"
             ]
         },
         {
-            "note": "# Life-Bound Gloves - Professions - Epic - Leatherworking",
+            "note": "# Life-Bound Gloves - Leatherworking",
             "profileSets": [
-                "profileset.\"Life-Bound Gloves - STATS_HERE - Leatherworking\"+=hands=,id=193418,bonus_id=8836/1553"
+                "profileset.\"(ILVL_HERE, STATS_HERE) Life-Bound Gloves - Leatherworking\"+=hands=,id=193418,bonus_id=8836/1553"
             ]
         },
         {
-            "note": "# Signet of Titanic Insight - Professions - Epic - Jewelcrafting",
+            "note": "# Signet of Titanic Insight - Jewelcrafting",
             "profileSets": [
-                "profileset.\"Signet of Titanic Insight - STATS_HERE - Jewelcrafting\"+=finger1=,id=192999,enchant_id=6550,bonus_id=8836/8780"
+                "profileset.\"(ILVL_HERE, STATS_HERE) Signet of Titanic Insight - Jewelcrafting\"+=finger1=,id=192999,enchant_id=6550,bonus_id=8836/8780"
             ]
         },
         {
-            "note": "# Signet of Titanic Insight - Professions - Epic - Jewelcrafting",
+            "note": "# Signet of Titanic Insight - Jewelcrafting",
             "profileSets": [
-                "profileset.\"Signet of Titanic Insight - STATS_HERE - Jewelcrafting\"+=finger2=,id=192999,enchant_id=6550,bonus_id=8836/8780"
+                "profileset.\"(ILVL_HERE, STATS_HERE) Signet of Titanic Insight - Jewelcrafting\"+=finger2=,id=192999,enchant_id=6550,bonus_id=8836/8780"
             ]
         },
         {
-            "note": "# Ring-Bound Hourglass - Professions - Epic - Jewelcrafting",
+            "note": "# Ring-Bound Hourglass - Jewelcrafting",
             "profileSets": [
-                "profileset.\"Ring-Bound Hourglass - STATS_HERE - Jewelcrafting\"+=finger1=,id=193000,enchant_id=6550,bonus_id=8836/8780"
+                "profileset.\"(ILVL_HERE, STATS_HERE) Ring-Bound Hourglass - Jewelcrafting\"+=finger1=,id=193000,enchant_id=6550,bonus_id=8836/8780"
             ]
         },
         {
-            "note": "# Ring-Bound Hourglass - Professions - Epic - Jewelcrafting",
+            "note": "# Ring-Bound Hourglass - Jewelcrafting",
             "profileSets": [
-                "profileset.\"Ring-Bound Hourglass - STATS_HERE - Jewelcrafting\"+=finger2=,id=193000,enchant_id=6550,bonus_id=8836/8780"
+                "profileset.\"(ILVL_HERE, STATS_HERE) Ring-Bound Hourglass - Jewelcrafting\"+=finger2=,id=193000,enchant_id=6550,bonus_id=8836/8780"
             ]
         },
         {
-            "note": "# Primal Molten Longsword - Professions - Epic - Blacksmithing",
+            "note": "# Primal Molten Longsword - Blacksmithing",
             "profileSets": [
-                "profileset.\"Primal Molten Longsword - STATS_HERE - Blacksmithing\"+=main_hand=,id=190507,enchant_id=6643,bonus_id=8836/1553"
+                "profileset.\"(ILVL_HERE, STATS_HERE) Primal Molten Longsword - Blacksmithing\"+=main_hand=,id=190507,enchant_id=6643,bonus_id=8836/1553"
             ]
         },
         {
-            "note": "# Primal Molten Longsword - Professions - Epic - Blacksmithing",
+            "note": "# Primal Molten Longsword - Blacksmithing",
             "profileSets": [
-                "profileset.\"Primal Molten Longsword - STATS_HERE - Blacksmithing\"+=off_hand=,id=190507,enchant_id=6655,bonus_id=8836/1553"
+                "profileset.\"(ILVL_HERE, STATS_HERE) Primal Molten Longsword - Blacksmithing\"+=off_hand=,id=190507,enchant_id=6655,bonus_id=8836/1553"
             ]
         },
         {
-            "note": "# Primal Molten Longsword - Professions - Epic - Blacksmithing",
+            "note": "# Primal Molten Warglaive - Blacksmithing",
             "profileSets": [
-                "profileset.\"Primal Molten Longsword - STATS_HERE - Blacksmithing\"+=main_hand=,id=190507,enchant_id=6643,bonus_id=8836/1553",
-                "profileset.\"Primal Molten Longsword - STATS_HERE - Blacksmithing\"+=off_hand=,id=190508,enchant_id=6655,bonus_id=8836/8840"
+                "profileset.\"(ILVL_HERE, STATS_HERE) Primal Molten Warglaive - Blacksmithing\"+=main_hand=,id=190508,enchant_id=6643,bonus_id=8836/1553"
             ]
         },
         {
-            "note": "# Primal Molten Warglaive - Professions - Epic - Blacksmithing",
+            "note": "# Primal Molten Warglaive - Blacksmithing",
             "profileSets": [
-                "profileset.\"Primal Molten Warglaive - STATS_HERE - Blacksmithing\"+=main_hand=,id=190508,enchant_id=6643,bonus_id=8836/1553"
+                "profileset.\"(ILVL_HERE, STATS_HERE) Primal Molten Warglaive - Blacksmithing\"+=off_hand=,id=190508,enchant_id=6655,bonus_id=8836/1553"
             ]
         },
         {
-            "note": "# Primal Molten Warglaive - Professions - Epic - Blacksmithing",
+            "note": "# Obsidian Seared Facesmasher - Blacksmithing",
             "profileSets": [
-                "profileset.\"Primal Molten Warglaive - STATS_HERE - Blacksmithing\"+=off_hand=,id=190508,enchant_id=6655,bonus_id=8836/1553"
+                "profileset.\"(ILVL_HERE, STATS_HERE) Obsidian Seared Facesmasher - Blacksmithing\"+=main_hand=,id=190513,enchant_id=6643,bonus_id=8836/1553"
             ]
         },
         {
-            "note": "# Primal Molten Warglaive - Professions - Epic - Blacksmithing",
+            "note": "# Obsidian Seared Facesmasher - Blacksmithing",
             "profileSets": [
-                "profileset.\"Primal Molten Warglaive - STATS_HERE - Blacksmithing\"+=main_hand=,id=190508,enchant_id=6643,bonus_id=8836/1553",
-                "profileset.\"Primal Molten Warglaive - STATS_HERE - Blacksmithing\"+=off_hand=,id=190508,enchant_id=6655,bonus_id=8836/8840"
+                "profileset.\"(ILVL_HERE, STATS_HERE) Obsidian Seared Facesmasher - Blacksmithing\"+=off_hand=,id=190513,enchant_id=6655,bonus_id=8836/1553"
             ]
         },
         {
-            "note": "# Obsidian Seared Facesmasher - Professions - Epic - Blacksmithing",
+            "note": "# Obsidian Seared Slicer - Blacksmithing",
             "profileSets": [
-                "profileset.\"Obsidian Seared Facesmasher - STATS_HERE - Blacksmithing\"+=main_hand=,id=190513,enchant_id=6643,bonus_id=8836/1553"
+                "profileset.\"(ILVL_HERE, STATS_HERE) Obsidian Seared Slicer - Blacksmithing\"+=main_hand=,id=190518,enchant_id=6643,bonus_id=8836/1553"
             ]
         },
         {
-            "note": "# Obsidian Seared Facesmasher - Professions - Epic - Blacksmithing",
+            "note": "# Obsidian Seared Slicer - Blacksmithing",
             "profileSets": [
-                "profileset.\"Obsidian Seared Facesmasher - STATS_HERE - Blacksmithing\"+=off_hand=,id=190513,enchant_id=6655,bonus_id=8836/1553"
+                "profileset.\"(ILVL_HERE, STATS_HERE) Obsidian Seared Slicer - Blacksmithing\"+=off_hand=,id=190518,enchant_id=6655,bonus_id=8836/1553"
             ]
         },
         {
-            "note": "# Obsidian Seared Facesmasher - Professions - Epic - Blacksmithing",
+            "note": "# Vibrant Wildercloth Shawl - Tailoring",
             "profileSets": [
-                "profileset.\"Obsidian Seared Facesmasher - STATS_HERE - Blacksmithing\"+=main_hand=,id=190513,enchant_id=6643,bonus_id=8836/1553",
-                "profileset.\"Obsidian Seared Facesmasher - STATS_HERE - Blacksmithing\"+=off_hand=,id=190508,enchant_id=6655,bonus_id=8836/8840"
-            ]
-        },
-        {
-            "note": "# Obsidian Seared Slicer - Professions - Epic - Blacksmithing",
-            "profileSets": [
-                "profileset.\"Obsidian Seared Slicer - STATS_HERE - Blacksmithing\"+=main_hand=,id=190518,enchant_id=6643,bonus_id=8836/1553"
-            ]
-        },
-        {
-            "note": "# Obsidian Seared Slicer - Professions - Epic - Blacksmithing",
-            "profileSets": [
-                "profileset.\"Obsidian Seared Slicer - STATS_HERE - Blacksmithing\"+=off_hand=,id=190518,enchant_id=6655,bonus_id=8836/1553"
-            ]
-        },
-        {
-            "note": "# Obsidian Seared Slicer - Professions - Epic - Blacksmithing",
-            "profileSets": [
-                "profileset.\"Obsidian Seared Slicer - STATS_HERE - Blacksmithing\"+=main_hand=,id=190518,enchant_id=6643,bonus_id=8836/1553",
-                "profileset.\"Obsidian Seared Slicer - STATS_HERE - Blacksmithing\"+=off_hand=,id=190508,enchant_id=6655,bonus_id=8836/8840"
-            ]
-        },
-        {
-            "note": "# Vibrant Wildercloth Shawl - Professions - Epic - Tailoring",
-            "profileSets": [
-                "profileset.\"Vibrant Wildercloth Shawl - STATS_HERE - Tailoring\"+=back=,id=193511,enchant_id=6592,bonus_id=8836/1553"
+                "profileset.\"(ILVL_HERE, STATS_HERE) Vibrant Wildercloth Shawl - Tailoring\"+=back=,id=193511,enchant_id=6592,bonus_id=8836/1553"
             ]
         }
     ]
