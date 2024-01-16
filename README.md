@@ -8,4 +8,3 @@ A tool to generate combined raid, m+, and crafted item droptimizer strings for S
 - disallow generating if not addon output is not valid
 - disallow generating crafted items with no stats chosen
 - add notification/warning if only 1 stat chosen for crafted items
-- maybe switch to bootstrap toasts rather than react-toastify

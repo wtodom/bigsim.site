@@ -1,7 +1,6 @@
 import { useState } from 'react';
 
 import copy from "copy-to-clipboard";
-import { toast } from "react-toastify";
 
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
@@ -12,6 +11,8 @@ import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Stack from 'react-bootstrap/Stack';
 import Table from 'react-bootstrap/Table';
+import Toast from 'react-bootstrap/Toast';
+import ToastContainer from 'react-bootstrap/ToastContainer';
 import ToggleButton from 'react-bootstrap/ToggleButton';
 
 import dhCraftedItems from './data/loot-crafted-dh';
@@ -39,6 +40,7 @@ function App() {
   const [addonInput, setAddonInput] = useState('')
   const [canGenerate, setCanGenerate] = useState(false);
   const [generatedText, setgeneratedText] = useState('')
+  const [showToast, setShowToast] = useState(false);
 
   return (
     <div className="App">
@@ -60,7 +62,8 @@ function App() {
           </Col>
 
           <Col>
-            <OutputStack generatedText={generatedText} />
+            <NotificationSection show={showToast} setShow={setShowToast} />
+            <OutputStack generatedText={generatedText} setShowToast={setShowToast} />
           </Col>
         </Row>
       </Container>
@@ -367,13 +370,28 @@ const convertStats = (stats) => {
   return statCombos;
 }
 
-function OutputStack({ generatedText }) {
+function NotificationSection({ show, setShow }) {
+  return (
+    <ToastContainer className="p-2" position="top-end" style={{ zIndex: 1 }} >
+      <Toast onClose={() => setShow(false)} show={show} delay={2000} >
+        <Toast.Header className='text-success'>
+          <strong className="me-auto">Sim Input Copied</strong>
+        </Toast.Header>
+        <Toast.Body>
+          You can use the copied simc string in the Advanced section
+          of Raidbots or in a local SimulationCraft install.
+        </Toast.Body>
+      </Toast>
+    </ToastContainer>
+  )
+}
+
+function OutputStack({ generatedText, setShowToast }) {
   const copyToClipboard = () => {
     let copyText = generatedText;
     let isCopy = copy(copyText);
     if (isCopy) {
-      // TODO: convert this to use native bootstrap toasts
-      toast.info("Copied!");
+      setShowToast(true);
     }
   };
 
