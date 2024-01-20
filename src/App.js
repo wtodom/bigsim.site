@@ -40,7 +40,9 @@ function App() {
   const [addonInput, setAddonInput] = useState('')
   const [canGenerate, setCanGenerate] = useState(false);
   const [generatedText, setgeneratedText] = useState('')
-  const [showToast, setShowToast] = useState(false);
+  const [showCopySuccess, setShowCopySuccess] = useState(false);
+  const [showStatWarning, setShowStatWarning] = useState(false);
+
 
   return (
     <div className="App">
@@ -58,12 +60,14 @@ function App() {
               setAddonInput={setAddonInput}
               canGenerate={canGenerate}
               setCanGenerate={setCanGenerate}
-              setgeneratedText={setgeneratedText} />
+              setgeneratedText={setgeneratedText}
+              setShowStatWarning={setShowStatWarning}
+            />
           </Col>
 
           <Col>
-            <NotificationSection show={showToast} setShow={setShowToast} />
-            <OutputStack generatedText={generatedText} setShowToast={setShowToast} />
+            <NotificationSection showCopySuccess={showCopySuccess} setShowCopySuccess={setShowCopySuccess} showStatWarning={showStatWarning} statCount={selectedStats.length} setShowStatWarning={setShowStatWarning} />
+            <OutputStack generatedText={generatedText} setShowCopySuccess={setShowCopySuccess} setShowStatWarning={setShowStatWarning} />
           </Col>
         </Row>
       </Container>
@@ -71,14 +75,14 @@ function App() {
   );
 }
 
-function ConfigStack({ sourcesAndLevels, setSourcesAndLevels, statsVisible, setStatsVisible, selectedStats, setSelectedStats, addonInput, setAddonInput, canGenerate, setCanGenerate, setgeneratedText }) {
+function ConfigStack({ sourcesAndLevels, setSourcesAndLevels, statsVisible, setStatsVisible, selectedStats, setSelectedStats, addonInput, setAddonInput, canGenerate, setCanGenerate, setgeneratedText, setShowStatWarning }) {
   return (
     <div className="p-4">
       <Stack gap={3}>
         <SourceTable sourcesAndLevels={sourcesAndLevels} setSourcesAndLevels={setSourcesAndLevels} setStatsVisible={setStatsVisible} />
         <CraftedStatsPicker isVisible={statsVisible} selectedStats={selectedStats} setSelectedStats={setSelectedStats} />
         <SimcText setAddonInput={setAddonInput} setCanGenerate={setCanGenerate} />
-        <GenerateButton addonInput={addonInput} sourcesAndLevels={sourcesAndLevels} selectedStats={selectedStats} canGenerate={canGenerate} setgeneratedText={setgeneratedText} />
+        <GenerateButton addonInput={addonInput} sourcesAndLevels={sourcesAndLevels} selectedStats={selectedStats} canGenerate={canGenerate} setgeneratedText={setgeneratedText} setShowStatWarning={setShowStatWarning} />
       </Stack>
     </div>
   )
@@ -292,11 +296,13 @@ function SimcText({ setAddonInput, setCanGenerate }) {
   )
 }
 
-function GenerateButton({ addonInput, sourcesAndLevels, selectedStats, canGenerate, setgeneratedText }) {
+function GenerateButton({ addonInput, sourcesAndLevels, selectedStats, canGenerate, setgeneratedText, setShowStatWarning }) {
   const generateText = () => {
-    if (!canGenerate) {
-      // TODO: show toast or validation notification with reason
-      return
+    if (sourcesAndLevels.crafted) {
+      const statCount = selectedStats.length
+      if (statCount < 2 ) {
+        setShowStatWarning(true)
+      }
     }
 
     let generated = '' + addonInput + "\n\n";
@@ -370,10 +376,13 @@ const convertStats = (stats) => {
   return statCombos;
 }
 
-function NotificationSection({ show, setShow }) {
+function NotificationSection({ showCopySuccess, setShowCopySuccess, statCount, setShowStatWarning, showStatWarning }) {
+  const ENGINEERING_MESSAGE = "Only 1 secondary stat was chosen - only single-stat Engineering items have been added.";
+  const NO_STATS_MESSAGE = "No secondary stat were chosen - crafed items have not been added.";
+
   return (
     <ToastContainer className="p-2" position="top-end" style={{ zIndex: 1 }} >
-      <Toast onClose={() => setShow(false)} show={show} delay={2000} >
+      <Toast onClose={() => setShowCopySuccess(false)} show={showCopySuccess} delay={8000} >
         <Toast.Header className='text-success'>
           <strong className="me-auto">Sim Input Copied</strong>
         </Toast.Header>
@@ -382,16 +391,25 @@ function NotificationSection({ show, setShow }) {
           of Raidbots or in a local SimulationCraft install.
         </Toast.Body>
       </Toast>
+
+      <Toast onClose={() => setShowStatWarning(false)} show={showStatWarning} delay={8000} >
+        <Toast.Header className='text-warning'>
+          <strong className="me-auto">Secondary Stat Warning</strong>
+        </Toast.Header>
+        <Toast.Body>
+          {statCount === 1 ? ENGINEERING_MESSAGE : NO_STATS_MESSAGE}
+        </Toast.Body>
+      </Toast>
     </ToastContainer>
   )
 }
 
-function OutputStack({ generatedText, setShowToast }) {
+function OutputStack({ generatedText, setShowCopySuccess }) {
   const copyToClipboard = () => {
     let copyText = generatedText;
     let isCopy = copy(copyText);
     if (isCopy) {
-      setShowToast(true);
+      setShowCopySuccess(true);
     }
   };
 
